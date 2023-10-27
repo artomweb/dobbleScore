@@ -2,27 +2,42 @@ class Game {
   constructor() {
     this.numberOfSymbolsOnCard = 8; // prime + 1
     this.cards = [];
-
+    this.gameOn = false;
     this.prime = this.numberOfSymbolsOnCard - 1;
-    // numberOfCards = n ** 2 + n + 1;
-
-    this.cards = this.generateCards(this.prime);
-    this.shuffleCards();
 
     this.cardNo = 0;
 
+    this.scores = [];
+
     this.cardSize = 350;
-    console.log(symbols);
-    console.log(this.cards);
+
     this.card1Locs = [];
     this.card2Locs = [];
 
+    this.rounds = 0;
+
+    this.score = 0;
+    this.gameOn = false;
+  }
+
+  makeCards() {
+    this.cards = this.generateCards(this.prime);
+    this.shuffleCards();
+  }
+
+  startGame() {
+    this.score = 0;
+    this.rounds = 0;
+
+    this.makeCards();
+
     this.nextCards();
-
     this.generateLocs();
+    this.gameOn = true;
+  }
 
-    // this.card1;
-    // this.card1;
+  stopGame() {
+    this.gameOn = false;
   }
 
   shuffleCards() {
@@ -33,19 +48,24 @@ class Game {
   }
 
   generateLocs() {
+    this.card1Locs = [];
+    this.card2Locs = [];
     let a = 0;
     let r = this.cardSize / 2 - 50;
+    let rot;
 
     for (let i = 0; i < this.card1.length - 1; i++) {
       let x = r * cos(a);
       let y = r * sin(a);
+      rot = random(TWO_PI);
       let thisImg = imgs[this.card1[i] - 1];
-      this.card1Locs.push({ img: thisImg, x: width - width / 4 + x, y: height / 2 + y });
+      this.card1Locs.push({ imgIdx: this.card1[i] - 1, img: thisImg, x: width / 4 + x, y: height / 2 + y, rot });
 
       a += TWO_PI / 7;
     }
 
-    this.card1Locs.push({ img: imgs[this.card1[7] - 1], x: width - width / 4, y: height / 2 });
+    rot = random(TWO_PI);
+    this.card1Locs.push({ imgIdx: this.card1[7] - 1, img: imgs[this.card1[7] - 1], x: width / 4, y: height / 2, rot });
 
     a = 0;
     r = this.cardSize / 2 - 50;
@@ -53,19 +73,20 @@ class Game {
     for (let i = 0; i < this.card2.length - 1; i++) {
       let x = r * cos(a);
       let y = r * sin(a);
-
+      rot = random(TWO_PI);
       let thisImg = imgs[this.card2[i] - 1];
-      this.card2Locs.push({ img: thisImg, x: width - width / 4 + x, y: height / 2 + y });
+      this.card2Locs.push({ imgIdx: this.card2[i] - 1, img: thisImg, x: width - width / 4 + x, y: height / 2 + y, rot });
 
       a += TWO_PI / 7;
     }
-
-    this.card2Locs.push({ img: imgs[this.card2[7] - 1], x: width - width / 4, y: height / 2 });
+    rot = random(TWO_PI);
+    this.card2Locs.push({ imgIdx: this.card2[7] - 1, img: imgs[this.card2[7] - 1], x: width - width / 4, y: height / 2, rot });
   }
 
   nextCards() {
+    console.log("CHOOSING NEXT CARDS", this.cardNo);
     if (this.cardNo >= this.cards.length - 2) {
-      shuffleCards();
+      this.makeCards();
       this.cardNo = 0;
     }
     this.card1 = this.cards[this.cardNo];
@@ -74,6 +95,9 @@ class Game {
     console.log(this.card1, this.card2);
 
     this.cardNo += 2;
+    this.rounds++;
+
+    this.generateLocs();
   }
 
   generateCards(n) {
@@ -110,24 +134,26 @@ class Game {
     circle(width / 4, height / 2, this.cardSize);
     circle(width - width / 4, height / 2, this.cardSize);
 
+    if (!this.gameOn) return;
+
+    let middleImg;
+
     imageMode(CENTER);
 
     for (let i = 0; i < this.card1Locs.length - 1; i++) {
       let thisLoc = this.card1Locs[i];
       push();
       translate(thisLoc.x, thisLoc.y);
-      rotate(random(TWO_PI));
+      rotate(thisLoc.rot);
       let thisImg = thisLoc.img;
       image(thisImg, 0, 0, 75, 75, 0, 0, thisImg.width, thisImg.height, CONTAIN);
       pop();
-
-      console.log("adding image", thisImg);
     }
 
     push();
     translate(width / 4, height / 2);
-    rotate(random(TWO_PI));
-    let middleImg = imgs[this.card1[7] - 1];
+    middleImg = imgs[this.card1[7] - 1];
+    rotate(this.card1Locs[7].rot);
     image(middleImg, 0, 0, 75, 75, 0, 0, middleImg.width, middleImg.height, CONTAIN);
     pop();
 
@@ -135,29 +161,50 @@ class Game {
       let thisLoc = this.card2Locs[i];
       push();
       translate(thisLoc.x, thisLoc.y);
-      rotate(random(TWO_PI));
+      rotate(thisLoc.rot);
       let thisImg = thisLoc.img;
       image(thisImg, 0, 0, 75, 75, 0, 0, thisImg.width, thisImg.height, CONTAIN);
       pop();
-
-      console.log("adding image", thisImg);
     }
 
     push();
     translate(width - width / 4, height / 2);
-    rotate(random(TWO_PI));
     middleImg = imgs[this.card2[7] - 1];
+    rotate(this.card2Locs[7].rot);
     image(middleImg, 0, 0, 75, 75, 0, 0, middleImg.width, middleImg.height, CONTAIN);
     pop();
   }
 
   isSymbolClicked(mx, my) {
-    let x = width / 4;
-    let y = height / 2;
+    if (!this.gameOn) return;
+    // let found = false;
+    for (let i = 0; i < this.card1Locs.length; i++) {
+      let thisLoc = this.card1Locs[i];
 
-    let a = 0;
-    let r = this.cardSize / 2 - 50;
+      if (mouseInside(mx, my, thisLoc.x, thisLoc.y, 50, 50)) {
+        console.log("FOUND", thisLoc);
+        if (this.card2Locs.some((e) => e.imgIdx === thisLoc.imgIdx)) {
+          console.log("YOU GOT IT RIGHT");
+          this.score++;
+        }
+        this.nextCards();
+        return;
+      }
+    }
 
-    for (let i = 0; i < this.card1.length - 1; i++) {}
+    for (let i = 0; i < this.card2Locs.length; i++) {
+      let thisLoc = this.card2Locs[i];
+
+      if (mouseInside(mx, my, thisLoc.x, thisLoc.y, 50, 50)) {
+        console.log("FOUND", thisLoc);
+
+        if (this.card1Locs.some((e) => e.imgIdx === thisLoc.imgIdx)) {
+          console.log("YOU GOT IT RIGHT");
+          this.score++;
+        }
+        this.nextCards();
+        return;
+      }
+    }
   }
 }

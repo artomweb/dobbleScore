@@ -45,7 +45,7 @@ symbols = [
   "scissors",
   "skull",
   "snowflake",
-  "snowflake",
+  "snowman",
   "spider",
   "spots",
   "sun",
