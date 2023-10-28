@@ -38,6 +38,7 @@ function draw() {
     if (seconds <= 0) {
       seconds = 0;
       game.scores.push([round(new Date().getTime() / 1000), MAX_SECONDS, game.rounds, game.score]);
+      updateScoreDiv();
       game.stopGame();
     }
   }
@@ -56,7 +57,7 @@ function startGame() {
 function updateScoreDiv() {
   let scoresDiv = document.getElementById("scores");
   scoresDiv.innerHTML = "";
-  for (let s of scores) {
+  for (let s of game.scores) {
     let span = document.createElement("span");
     span.innerHTML = s.join(",");
     scoresDiv.appendChild(span);

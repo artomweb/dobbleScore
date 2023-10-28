@@ -87,6 +87,7 @@ class Game {
     console.log("CHOOSING NEXT CARDS", this.cardNo);
     if (this.cardNo >= this.cards.length - 2) {
       this.makeCards();
+      this.generateLocs();
       this.cardNo = 0;
     }
     this.card1 = this.cards[this.cardNo];
@@ -95,7 +96,6 @@ class Game {
     console.log(this.card1, this.card2);
 
     this.cardNo += 2;
-    this.rounds++;
 
     this.generateLocs();
   }
@@ -187,6 +187,7 @@ class Game {
           console.log("YOU GOT IT RIGHT");
           this.score++;
         }
+        this.rounds++;
         this.nextCards();
         return;
       }
@@ -202,6 +203,7 @@ class Game {
           console.log("YOU GOT IT RIGHT");
           this.score++;
         }
+        this.rounds++;
         this.nextCards();
         return;
       }
