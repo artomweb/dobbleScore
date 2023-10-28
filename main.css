@@ -1,0 +1,90 @@
+html,
+body {
+  /* background-color: black; */
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+  position: relative;
+  /* border: 2px solid black; */
+  max-width: 600px !important;
+  height: auto !important;
+}
+
+#timeSelector {
+  font-size: 30px;
+  display: flex;
+  gap: 40px;
+}
+
+.timeMode {
+  padding: 5px;
+  cursor: pointer;
+}
+
+.active {
+  border: 1px solid black;
+}
+
+#sketch {
+  display: flex;
+  justify-content: center;
+}
+
+#container {
+  min-height: 100vh;
+  /*vertical center*/
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (max-width: 633px) {
+  canvas {
+    max-width: 95% !important;
+  }
+}
+
+/* CSS */
+.button-52 {
+  font-size: 16px;
+  font-weight: 200;
+  letter-spacing: 1px;
+  padding: 13px 20px 13px;
+  outline: 0;
+  border: 1px solid black;
+  cursor: pointer;
+  position: relative;
+  background-color: rgba(0, 0, 0, 0);
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button-52:after {
+  content: "";
+  background-color: #ffe066;
+  width: 100%;
+  z-index: -1;
+  position: absolute;
+  height: 100%;
+  top: 7px;
+  left: 7px;
+  transition: 0.2s;
+}
+
+.button-52:hover:after {
+  top: 0px;
+  left: 0px;
+}
+
+@media (min-width: 768px) {
+  .button-52 {
+    padding: 13px 50px 13px;
+  }
+}

@@ -2,8 +2,8 @@ let game;
 let imgs = [];
 // let currentMs;
 let startMs;
-const MAX_SECONDS = 60;
-let seconds = MAX_SECONDS;
+let MAX_SECONDS;
+let seconds;
 let button;
 
 function preload() {
@@ -14,19 +14,18 @@ function preload() {
 
 function setup() {
   let canvas = createCanvas(800, 800);
-  canvas.parent("container");
+  canvas.parent("sketch");
   game = new Game();
   startMs = millis();
   textSize(100);
   textAlign(CENTER, CENTER);
 
-  button = createButton("Start Game");
-  button.position(width / 2 - button.width / 2, height - 200);
-  button.mousePressed(startGame);
+  let dSeconds = localStorage.getItem("MAX_SECONDS") || 60;
+  changeTimeMode(dSeconds);
 }
 
 function draw() {
-  background("#F8E8EE");
+  background("#70C1B3");
   game.drawCards();
   text(seconds, width / 2, 100);
   text(game.score + "/" + game.rounds, width / 2, height - 100);
@@ -37,12 +36,7 @@ function draw() {
     seconds--;
     if (seconds <= 0) {
       seconds = 0;
-      game.scores.push([
-        round(new Date().getTime() / 1000),
-        MAX_SECONDS,
-        game.rounds,
-        game.score,
-      ]);
+      game.scores.push([round(new Date().getTime() / 1000), MAX_SECONDS, game.rounds, game.score]);
       updateScoreDiv();
       game.stopGame();
     }
@@ -68,4 +62,23 @@ function updateScoreDiv() {
     scoresDiv.appendChild(span);
     scoresDiv.appendChild(document.createElement("br"));
   }
+}
+
+function changeTimeMode(mode) {
+  console.log("mode", mode);
+
+  let modesDiv = document.getElementsByClassName("timeMode");
+
+  for (let i = 0; i < modesDiv.length; i++) {
+    if (modesDiv[i].innerHTML == mode) {
+      modesDiv[i].classList.add("active");
+    } else {
+      modesDiv[i].classList.remove("active");
+    }
+  }
+
+  MAX_SECONDS = mode;
+  seconds = MAX_SECONDS;
+
+  localStorage.setItem("MAX_SECONDS", mode);
 }

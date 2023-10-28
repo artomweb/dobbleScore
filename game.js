@@ -9,7 +9,7 @@ class Game {
 
     this.scores = [];
 
-    this.cardSize = 350;
+    this.cardSize = 375;
 
     this.card1Locs = [];
     this.card2Locs = [];

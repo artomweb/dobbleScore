@@ -8,11 +8,21 @@
     <title>Document</title>
 </head>
 <body>
-    <div id="container"></div>
-    <div id="scores"></div>
+    <div id="container">
+        <div id="sketch"></div>
+        <button class="button-52" role="button" onClick="startGame()">Start Game</button>
+        <div id="timeSelector">
+            <div class="timeMode" onClick="changeTimeMode(30)">30</div>
+            <div class="timeMode active"  onClick="changeTimeMode(60)">60</div>
+            <div class="timeMode"  onClick="changeTimeMode(120)">120</div>
+        </div>
+        <div id="scores">
+    </div>
+    </div>
 </body>
 <script src="symbols.js"></script>
 <script src="helpers.js"></script>
 <script src="game.js"></script>
 <script src="main.js"></script>
 </html>
+
