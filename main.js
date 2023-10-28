@@ -2,7 +2,7 @@ let game;
 let imgs = [];
 // let currentMs;
 let startMs;
-const MAX_SECONDS = 120;
+const MAX_SECONDS = 60;
 let seconds = MAX_SECONDS;
 let button;
 
@@ -37,7 +37,12 @@ function draw() {
     seconds--;
     if (seconds <= 0) {
       seconds = 0;
-      game.scores.push([round(new Date().getTime() / 1000), MAX_SECONDS, game.rounds, game.score]);
+      game.scores.push([
+        round(new Date().getTime() / 1000),
+        MAX_SECONDS,
+        game.rounds,
+        game.score,
+      ]);
       updateScoreDiv();
       game.stopGame();
     }
