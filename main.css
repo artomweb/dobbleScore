@@ -88,3 +88,12 @@ canvas {
     padding: 13px 50px 13px;
   }
 }
+
+#incorrectMessage {
+  font-size: 30px;
+  color: red;
+}
+
+.hide {
+  visibility: hidden;
+}

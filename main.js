@@ -28,7 +28,7 @@ function draw() {
   background("#70C1B3");
   game.drawCards();
   text(seconds, width / 2, 100);
-  text(game.score + "/" + game.rounds, width / 2, height - 100);
+  text(game.score, width / 2, height - 100);
   if (!game.gameOn) return;
   let currentMs = millis();
   if (currentMs - startMs > 1000) {

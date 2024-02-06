@@ -186,9 +186,12 @@ class Game {
         if (this.card2Locs.some((e) => e.imgIdx === thisLoc.imgIdx)) {
           console.log("YOU GOT IT RIGHT");
           this.score++;
+          this.rounds++;
+          this.nextCards();
+        } else {
+          displayIncorrect();
         }
-        this.rounds++;
-        this.nextCards();
+
         return;
       }
     }
@@ -202,11 +205,21 @@ class Game {
         if (this.card1Locs.some((e) => e.imgIdx === thisLoc.imgIdx)) {
           console.log("YOU GOT IT RIGHT");
           this.score++;
+          this.rounds++;
+          this.nextCards();
+        } else {
+          displayIncorrect();
         }
-        this.rounds++;
-        this.nextCards();
+
         return;
       }
     }
   }
+}
+
+function displayIncorrect() {
+  document.getElementById("incorrectMessage").classList.remove("hide");
+  setTimeout(() => {
+    document.getElementById("incorrectMessage").classList.add("hide");
+  }, 1000);
 }
