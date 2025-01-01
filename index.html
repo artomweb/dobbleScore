@@ -10,13 +10,20 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
+    <script
+      defer
+      src="https://api.artomweb.com/stats/script.js"
+      data-website-id="6f814518-aef1-45f0-82df-a0315510b065"
+    ></script>
     <title>Dobble</title>
   </head>
   <body>
     <div id="container">
       <div id="sketch"></div>
       <div id="incorrectMessage" class="hide">Incorrect</div>
-      <button class="button-52" role="button" onClick="startGame()">Start Game</button>
+      <button class="button-52" role="button" onClick="startGame()">
+        Start Game
+      </button>
       <div id="timeSelector">
         <div class="timeMode" onClick="changeTimeMode(30)">30</div>
         <div class="timeMode active" onClick="changeTimeMode(60)">60</div>
