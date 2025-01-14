@@ -59,13 +59,25 @@ class Game {
       let y = r * sin(a);
       rot = random(TWO_PI);
       let thisImg = imgs[this.card1[i] - 1];
-      this.card1Locs.push({ imgIdx: this.card1[i] - 1, img: thisImg, x: width / 4 + x, y: height / 2 + y, rot });
+      this.card1Locs.push({
+        imgIdx: this.card1[i] - 1,
+        img: thisImg,
+        x: width / 4 + x,
+        y: height / 2 + y,
+        rot,
+      });
 
       a += TWO_PI / 7;
     }
 
     rot = random(TWO_PI);
-    this.card1Locs.push({ imgIdx: this.card1[7] - 1, img: imgs[this.card1[7] - 1], x: width / 4, y: height / 2, rot });
+    this.card1Locs.push({
+      imgIdx: this.card1[7] - 1,
+      img: imgs[this.card1[7] - 1],
+      x: width / 4,
+      y: height / 2,
+      rot,
+    });
 
     a = 0;
     r = this.cardSize / 2 - 50;
@@ -75,12 +87,24 @@ class Game {
       let y = r * sin(a);
       rot = random(TWO_PI);
       let thisImg = imgs[this.card2[i] - 1];
-      this.card2Locs.push({ imgIdx: this.card2[i] - 1, img: thisImg, x: width - width / 4 + x, y: height / 2 + y, rot });
+      this.card2Locs.push({
+        imgIdx: this.card2[i] - 1,
+        img: thisImg,
+        x: width - width / 4 + x,
+        y: height / 2 + y,
+        rot,
+      });
 
       a += TWO_PI / 7;
     }
     rot = random(TWO_PI);
-    this.card2Locs.push({ imgIdx: this.card2[7] - 1, img: imgs[this.card2[7] - 1], x: width - width / 4, y: height / 2, rot });
+    this.card2Locs.push({
+      imgIdx: this.card2[7] - 1,
+      img: imgs[this.card2[7] - 1],
+      x: width - width / 4,
+      y: height / 2,
+      rot,
+    });
   }
 
   nextCards() {
@@ -146,7 +170,18 @@ class Game {
       translate(thisLoc.x, thisLoc.y);
       rotate(thisLoc.rot);
       let thisImg = thisLoc.img;
-      image(thisImg, 0, 0, 75, 75, 0, 0, thisImg.width, thisImg.height, CONTAIN);
+      image(
+        thisImg,
+        0,
+        0,
+        75,
+        75,
+        0,
+        0,
+        thisImg.width,
+        thisImg.height,
+        CONTAIN
+      );
       pop();
     }
 
@@ -154,7 +189,18 @@ class Game {
     translate(width / 4, height / 2);
     middleImg = imgs[this.card1[7] - 1];
     rotate(this.card1Locs[7].rot);
-    image(middleImg, 0, 0, 75, 75, 0, 0, middleImg.width, middleImg.height, CONTAIN);
+    image(
+      middleImg,
+      0,
+      0,
+      75,
+      75,
+      0,
+      0,
+      middleImg.width,
+      middleImg.height,
+      CONTAIN
+    );
     pop();
 
     for (let i = 0; i < this.card2Locs.length - 1; i++) {
@@ -163,7 +209,18 @@ class Game {
       translate(thisLoc.x, thisLoc.y);
       rotate(thisLoc.rot);
       let thisImg = thisLoc.img;
-      image(thisImg, 0, 0, 75, 75, 0, 0, thisImg.width, thisImg.height, CONTAIN);
+      image(
+        thisImg,
+        0,
+        0,
+        75,
+        75,
+        0,
+        0,
+        thisImg.width,
+        thisImg.height,
+        CONTAIN
+      );
       pop();
     }
 
@@ -171,7 +228,18 @@ class Game {
     translate(width - width / 4, height / 2);
     middleImg = imgs[this.card2[7] - 1];
     rotate(this.card2Locs[7].rot);
-    image(middleImg, 0, 0, 75, 75, 0, 0, middleImg.width, middleImg.height, CONTAIN);
+    image(
+      middleImg,
+      0,
+      0,
+      75,
+      75,
+      0,
+      0,
+      middleImg.width,
+      middleImg.height,
+      CONTAIN
+    );
     pop();
   }
 
@@ -222,4 +290,8 @@ function displayIncorrect() {
   setTimeout(() => {
     document.getElementById("incorrectMessage").classList.add("hide");
   }, 1000);
+}
+
+function mouseInside(mx, my, x, y, w, h) {
+  return mx > x - w && mx < x + w && my > y - h && my < y + h;
 }

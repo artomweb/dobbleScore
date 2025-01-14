@@ -1,18 +1,34 @@
 let game;
 let imgs = [];
-// let currentMs;
-let startMs;
-let MAX_SECONDS;
-let seconds;
-let button;
+let frameData = [];
+let spriteSheet;
+let spriteMeta;
 
 function preload() {
-  for (let i = 0; i < symbols.length; i++) {
-    imgs.push(loadImage(`PNG/${symbols[i]}.png`));
-  }
+  // Load sprite sheet image and metadata JSON
+  spriteSheet = loadImage("PNG/spritesheet.webp"); // Replace with your sprite sheet path
+  spriteMeta = loadJSON("spritesheet.json"); // Replace with your metadata path
 }
 
 function setup() {
+  // Extract frame data from JSON
+  for (let i = 0; i < spriteMeta.frames.length; i++) {
+    let frame = spriteMeta.frames[i].frame;
+    frameData.push({
+      filename: spriteMeta.frames[i].filename,
+      x: frame.x,
+      y: frame.y,
+      w: frame.w,
+      h: frame.h,
+    });
+  }
+
+  // Load each image (frame) from the sprite sheet
+  for (let i = 0; i < frameData.length; i++) {
+    let frame = frameData[i];
+    imgs.push(spriteSheet.get(frame.x, frame.y, frame.w, frame.h));
+  }
+
   let canvas = createCanvas(800, 800);
   canvas.parent("sketch");
   game = new Game();
@@ -26,20 +42,51 @@ function setup() {
 
 function draw() {
   background("#70C1B3");
-  game.drawCards();
+  game.drawCards(); // Assuming your game logic uses this function
   text(seconds, width / 2, 100);
   text(game.score, width / 2, height - 100);
+
   if (!game.gameOn) return;
+
   let currentMs = millis();
   if (currentMs - startMs > 1000) {
     startMs = currentMs;
     seconds--;
     if (seconds <= 0) {
       seconds = 0;
-      game.scores.push([round(new Date().getTime() / 1000), MAX_SECONDS, game.rounds, game.score]);
+      game.scores.push([
+        round(new Date().getTime() / 1000),
+        MAX_SECONDS,
+        game.rounds,
+        game.score,
+      ]);
       updateScoreDiv();
       game.stopGame();
     }
+  }
+  let cursorOverElement = false;
+  for (let i = 0; i < game.card1Locs.length; i++) {
+    let thisLoc = game.card1Locs[i];
+
+    if (mouseInside(mouseX, mouseY, thisLoc.x, thisLoc.y, 50, 50)) {
+      cursorOverElement = true;
+      break;
+    }
+  }
+
+  for (let i = 0; i < game.card2Locs.length; i++) {
+    let thisLoc = game.card2Locs[i];
+
+    if (mouseInside(mouseX, mouseY, thisLoc.x, thisLoc.y, 50, 50)) {
+      cursorOverElement = true;
+      break;
+    }
+  }
+  // Update the cursor based on whether it's over an element
+  if (cursorOverElement) {
+    cursor("pointer"); // Set the cursor to a pointer when over an element
+  } else {
+    cursor("default"); // Set the cursor back to default if not over an element
   }
 }
 
