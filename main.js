@@ -11,6 +11,21 @@ function preload() {
 }
 
 function setup() {
+  if (spriteSheet) {
+    console.log("Sprite sheet loaded successfully");
+    console.log("Sprite sheet width: " + spriteSheet.width);
+    console.log("Sprite sheet height: " + spriteSheet.height);
+  } else {
+    console.log("Failed to load sprite sheet");
+  }
+
+  // Check if spriteMeta is loaded
+  if (spriteMeta) {
+    console.log("Sprite metadata loaded successfully");
+    console.log("Metadata keys: " + Object.keys(spriteMeta));
+  } else {
+    console.log("Failed to load sprite metadata");
+  }
   // Extract frame data from JSON
   for (let i = 0; i < spriteMeta.frames.length; i++) {
     let frame = spriteMeta.frames[i].frame;
