@@ -31,6 +31,7 @@ function setup() {
 
   let canvas = createCanvas(800, 800);
   canvas.parent("sketch");
+
   game = new Game();
   startMs = millis();
   textSize(100);
@@ -88,6 +89,8 @@ function draw() {
   } else {
     cursor("default"); // Set the cursor back to default if not over an element
   }
+
+  image(spriteSheet, width / 2, height / 2, width, height);
 }
 
 function mouseClicked() {
