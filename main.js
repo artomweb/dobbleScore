@@ -6,7 +6,7 @@ let spriteMeta;
 
 function preload() {
   // Load sprite sheet image and metadata JSON
-  spriteSheet = loadImage("PNG/spritesheet.webp"); // Replace with your sprite sheet path
+  spriteSheet = loadImage("PNG/spritesheet.png"); // Replace with your sprite sheet path
   spriteMeta = loadJSON("spritesheet.json"); // Replace with your metadata path
 }
 
