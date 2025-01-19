@@ -6,26 +6,11 @@ let spriteMeta;
 
 function preload() {
   // Load sprite sheet image and metadata JSON
-  spriteSheet = loadImage("PNG/spritesheet.png"); // Replace with your sprite sheet path
+  spriteSheet = loadImage("spritesheet.png"); // Replace with your sprite sheet path
   spriteMeta = loadJSON("spritesheet.json"); // Replace with your metadata path
 }
 
 function setup() {
-  if (spriteSheet) {
-    console.log("Sprite sheet loaded successfully");
-    console.log("Sprite sheet width: " + spriteSheet.width);
-    console.log("Sprite sheet height: " + spriteSheet.height);
-  } else {
-    console.log("Failed to load sprite sheet");
-  }
-
-  // Check if spriteMeta is loaded
-  if (spriteMeta) {
-    console.log("Sprite metadata loaded successfully");
-    console.log("Metadata keys: " + Object.keys(spriteMeta));
-  } else {
-    console.log("Failed to load sprite metadata");
-  }
   // Extract frame data from JSON
   for (let i = 0; i < spriteMeta.frames.length; i++) {
     let frame = spriteMeta.frames[i].frame;
@@ -104,8 +89,6 @@ function draw() {
   } else {
     cursor("default"); // Set the cursor back to default if not over an element
   }
-
-  image(spriteSheet, width / 2, height / 2, width, height);
 }
 
 function mouseClicked() {
